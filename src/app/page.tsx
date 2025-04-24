@@ -1,3 +1,5 @@
+'use client';
+
 import { LeaseAbstract } from '@/components/LeaseAbstract/LeaseAbstract';
 
 export default function Home() {

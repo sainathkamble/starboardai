@@ -1,3 +1,5 @@
+'use client';
+
 import React, { useState } from 'react';
 import { LeaseSummary } from './sections/LeaseSummary';
 import { FinancialTerms } from './sections/FinancialTerms';
