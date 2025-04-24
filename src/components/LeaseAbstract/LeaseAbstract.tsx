@@ -1,45 +1,38 @@
-'use client';
+import React, { useState } from 'react';
+import { LeaseSummary } from './sections/LeaseSummary';
+import { FinancialTerms } from './sections/FinancialTerms';
+import { RecoveryTerms } from './sections/RecoveryTerms';
+import { RenewalOptions } from './sections/RenewalOptions';
+import { RiskFactors } from './sections/RiskFactors';
 
-import { useState } from 'react';
-import { LeaseAbstract as LeaseAbstractType } from '@/types/lease';
-import TenantInfo from './sections/TenantInfo';
-import LeaseTerms from './sections/LeaseTerms';
-import Financials from './sections/Financials';
-import RecoveryTerms from './sections/RecoveryTerms';
-import RiskFactors from './sections/RiskFactors';
+type TabType = 'summary' | 'financial' | 'recovery' | 'renewal' | 'risks';
 
-interface LeaseAbstractProps {
-  data: LeaseAbstractType;
-}
-
-export default function LeaseAbstract({ data }: LeaseAbstractProps) {
-  const [activeTab, setActiveTab] = useState('tenant');
+export const LeaseAbstract: React.FC = () => {
+  const [activeTab, setActiveTab] = useState<TabType>('summary');
 
   const tabs = [
-    { id: 'tenant', label: 'Tenant Info' },
-    { id: 'terms', label: 'Lease Terms' },
-    { id: 'financials', label: 'Financials' },
+    { id: 'summary', label: 'Summary' },
+    { id: 'financial', label: 'Financial Terms' },
     { id: 'recovery', label: 'Recovery Terms' },
+    { id: 'renewal', label: 'Renewal Options' },
     { id: 'risks', label: 'Risk Factors' },
   ];
 
   return (
     <div className="w-full max-w-7xl mx-auto p-6">
-      {/* Header */}
-      <div className="mb-8">
-        <h1 className="text-3xl font-bold text-gray-900">{data.tenant.name}</h1>
-        <p className="text-gray-600 mt-2">Lease Abstract</p>
+      <div className="mb-6">
+        <h1 className="text-2xl font-semibold text-gray-900">Lease Abstract</h1>
+        <p className="text-sm text-gray-500">Detailed overview of lease terms and conditions</p>
       </div>
 
-      {/* Tabs */}
       <div className="border-b border-gray-200">
         <nav className="-mb-px flex space-x-8">
           {tabs.map((tab) => (
             <button
               key={tab.id}
-              onClick={() => setActiveTab(tab.id)}
+              onClick={() => setActiveTab(tab.id as TabType)}
               className={`
-                py-4 px-1 border-b-2 font-medium text-sm
+                whitespace-nowrap py-4 px-1 border-b-2 font-medium text-sm
                 ${
                   activeTab === tab.id
                     ? 'border-blue-500 text-blue-600'
@@ -53,14 +46,13 @@ export default function LeaseAbstract({ data }: LeaseAbstractProps) {
         </nav>
       </div>
 
-      {/* Content */}
       <div className="mt-6">
-        {activeTab === 'tenant' && <TenantInfo tenant={data.tenant} />}
-        {activeTab === 'terms' && <LeaseTerms leaseTerm={data.leaseTerm} />}
-        {activeTab === 'financials' && <Financials rentStructure={data.rentStructure} />}
-        {activeTab === 'recovery' && <RecoveryTerms recoveryTerms={data.recoveryTerms} />}
-        {activeTab === 'risks' && <RiskFactors riskFactors={data.riskFactors} />}
+        {activeTab === 'summary' && <LeaseSummary />}
+        {activeTab === 'financial' && <FinancialTerms />}
+        {activeTab === 'recovery' && <RecoveryTerms />}
+        {activeTab === 'renewal' && <RenewalOptions />}
+        {activeTab === 'risks' && <RiskFactors />}
       </div>
     </div>
   );
-} 
+}; 
